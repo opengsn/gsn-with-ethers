@@ -6,7 +6,7 @@
 //   console.log("a=%s addr=%s", 1, this);
 
 // eslint-disable-next-line no-undef
-usePlugin('@nomiclabs/buidler-truffle5')
+usePlugin('@nomiclabs/buidler-ethers')
 module.exports = {
   networks: {
     buidlerevm: {

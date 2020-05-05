@@ -15,7 +15,7 @@ const forwarder = require('../build/gsn/Forwarder').address
 
 const Web3 = require('web3')
 //we still use truffle compiled files
-Counter = require('../build/contracts/Counter')
+Counter = require('../artifacts/Counter')
 
 describe('using ethers with OpenGSN', () => {
     let counter
