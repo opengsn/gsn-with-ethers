@@ -1,0 +1,18 @@
+{
+  "name": "tethers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "truffle compile && buidler --network ganache test test/test-with-ethers.js"
+  },
+  "dependencies": {
+    "@nomiclabs/buidler": "^1.3.2",
+    "@nomiclabs/buidler-ethers": "^1.3.2",
+    "@nomiclabs/buidler-truffle5": "^1.3.2",
+    "@nomiclabs/buidler-web3": "^1.3.2",
+    "@opengsn/gsn": "^0.8.4",
+    "ethers": "^4.0.47",
+    "web3": "^1.2.7"
+  }
+}
