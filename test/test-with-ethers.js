@@ -1,19 +1,11 @@
-const {RelayProvider, configureGSN} = require('@opengsn/gsn')
+const { RelayProvider, configureGSN } = require('@opengsn/gsn')
+const GsnTestEnvironment = require('@opengsn/gsn/dist/GsnTestEnvironment' ).default
 const ethers = require('ethers')
-const {it, describe, before} = require('mocha')
-const {assert} = require('chai')
-let relayHubAddress
-try {
-    relayHubAddress = require('../build/gsn/RelayHub').address
-} catch (e) {
-    throw new Error('must use "gsn" tools to deploy hub (and start relay)')
-}
+const { it, describe, before } = require('mocha')
+const { assert } = require('chai')
 
-const stakeManagerAddress = require('../build/gsn/StakeManager').address
-const paymasterAddress = require('../build/gsn/Paymaster').address
-const forwarder = require('../build/gsn/Forwarder').address
+const Web3HttpProvider = require( 'web3-providers-http')
 
-const Web3 = require('web3')
 //we still use truffle compiled files
 Counter = require('../artifacts/Counter')
 
@@ -23,8 +15,10 @@ describe('using ethers with OpenGSN', () => {
     let web3provider
     let from
     before(async () => {
+	let env = await GsnTestEnvironment.startGsn('localhost')
+	const { relayHubAddress, paymasterAddress, stakeManagerAddress, forwarderAddress } = env.deploymentResult
 
-        web3provider = new Web3.providers.HttpProvider('http://localhost:8545')
+        web3provider = new Web3HttpProvider('http://localhost:8545')
         const etherProvider1 = new ethers.providers.Web3Provider(web3provider)
 
         accounts = await etherProvider1.listAccounts()
@@ -32,7 +26,7 @@ describe('using ethers with OpenGSN', () => {
         from = accounts[0]
         const factory = new ethers.ContractFactory(Counter.abi, Counter.bytecode, etherProvider1.getSigner())
 
-        counter = await factory.deploy(forwarder)
+        counter = await factory.deploy(forwarderAddress)
         await counter.deployed()
 
         const config = configureGSN({
@@ -42,6 +36,8 @@ describe('using ethers with OpenGSN', () => {
             paymasterAddress,
         })
         const gsnProvider = new RelayProvider(web3provider, config)
+	// The above is the full provider configuration. can use the provider returned by startGsn:
+        // const gsnProvider = env.relayProvider
         const etherProvider = new ethers.providers.Web3Provider(gsnProvider)
 
         counter = counter.connect(etherProvider.getSigner())
@@ -54,7 +50,6 @@ describe('using ethers with OpenGSN', () => {
         before(async () => {
             const beforeBalance = await counter.provider.getBalance(from)
             const countBefore = await counter.counter()
-            //cannot pass "from" value: must use accounts[0] (ether prevent contract calls to provide di
             await counter.increment()
             const countAfter = await counter.counter()
             const afterBalance = await counter.provider.getBalance(from)
