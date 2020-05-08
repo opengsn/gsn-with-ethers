@@ -4,12 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "testg": "buidler --network ganache test test/test-with-ethers.js",
     "test": "buidler test test/test-with-ethers.js"
   },
   "dependencies": {
     "@nomiclabs/buidler": "^1.3.2",
     "@nomiclabs/buidler-web3": "^1.3.2",
-    "@opengsn/gsn": "../gsn/opengsn-pack.tgz",
+    "@opengsn/gsn": "^0.9.0",
     "ethers": "^4.0.47",
     "web3-providers-http": "^1.2.7"
   },
