@@ -1,5 +1,5 @@
-const { RelayProvider, configureGSN } = require('@opengsn/gsn')
-const GsnTestEnvironment = require('@opengsn/gsn/dist/GsnTestEnvironment' ).default
+const { RelayProvider, resolveConfigurationGSN } = require('@opengsn/gsn')
+const { GsnTestEnvironment } = require('@opengsn/gsn/dist/GsnTestEnvironment' )
 const ethers = require('ethers')
 const { it, describe, before } = require('mocha')
 const { assert } = require('chai')
@@ -7,7 +7,7 @@ const { assert } = require('chai')
 const Web3HttpProvider = require( 'web3-providers-http')
 
 //we still use truffle compiled files
-Counter = require('../artifacts/Counter')
+const Counter = require('../artifacts/Counter')
 
 describe('using ethers with OpenGSN', () => {
     let counter
@@ -16,7 +16,7 @@ describe('using ethers with OpenGSN', () => {
     let from
     before(async () => {
 	let env = await GsnTestEnvironment.startGsn('localhost')
-	const { relayHubAddress, paymasterAddress, stakeManagerAddress, forwarderAddress } = env.deploymentResult
+	const { naivePaymasterAddress, forwarderAddress } = env.deploymentResult
 
     
         const web3provider = new Web3HttpProvider('http://localhost:8545')
@@ -28,18 +28,18 @@ describe('using ethers with OpenGSN', () => {
         counter = await factory.deploy(forwarderAddress)
         await counter.deployed()
 
-        const config = configureGSN({
+        const config = await resolveConfigurationGSN(web3provider, {
             // verbose: true,
-            relayHubAddress,
-            stakeManagerAddress,
-            paymasterAddress,
+            forwarderAddress,
+            paymasterAddress: naivePaymasterAddress,
         })
         // const hdweb3provider = new HDWallet('0x123456', 'http://localhost:8545')
         let gsnProvider = new RelayProvider(web3provider, config)
 	   // The above is the full provider configuration. can use the provider returned by startGsn:
         // const gsnProvider = env.relayProvider
 
-    	const account = gsnProvider.newAccount()
+    	const account = new ethers.Wallet(Buffer.from('1'.repeat(64),'hex'))
+        gsnProvider.addAccount({address:account.address, privateKey: Buffer.from(account.privateKey.replace('0x',''),'hex') })
     	from = account.address
 
         // gsnProvider is now an rpc provider with GSN support. make it an ethers provider:

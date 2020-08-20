@@ -12,6 +12,10 @@ contract Counter is BaseRelayRecipient {
 		trustedForwarder = _forwarder;
 	}
 
+	function versionRecipient() external override view returns (string memory) {
+		return "1.0.1";
+	}
+
 	function increment() public {
 		counter++;
 		lastCaller = _msgSender();
