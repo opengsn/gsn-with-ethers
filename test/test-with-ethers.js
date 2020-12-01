@@ -1,4 +1,4 @@
-const { RelayProvider, resolveConfigurationGSN } = require('@opengsn/gsn')
+const { RelayProvider } = require('@opengsn/gsn')
 const { GsnTestEnvironment } = require('@opengsn/gsn/dist/GsnTestEnvironment' )
 const ethers = require('ethers')
 const { it, describe, before } = require('mocha')
@@ -28,13 +28,14 @@ describe('using ethers with OpenGSN', () => {
         counter = await factory.deploy(forwarderAddress)
         await counter.deployed()
 
-        const config = await resolveConfigurationGSN(web3provider, {
+        const config = await {
             // verbose: true,
             forwarderAddress,
             paymasterAddress: naivePaymasterAddress,
-        })
+        }
         // const hdweb3provider = new HDWallet('0x123456', 'http://localhost:8545')
         let gsnProvider = new RelayProvider(web3provider, config)
+	await gsnProvider.init()
 	   // The above is the full provider configuration. can use the provider returned by startGsn:
         // const gsnProvider = env.relayProvider
 
