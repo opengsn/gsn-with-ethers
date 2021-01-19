@@ -207,9 +207,10 @@
     "@types/mocha" "^5.2.5"
     "@types/web3" "^1.2.2"
 
-"@opengsn/gsn@../gsnpublish/opengsn-gsn-v2.0.3.tgz":
-  version "2.0.3"
-  resolved "../gsnpublish/opengsn-gsn-v2.0.3.tgz#8cdcb770247718cc029f720590ebb619234d6688"
+"@opengsn/gsn@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@opengsn/gsn/-/gsn-2.1.0.tgz#d5b70c4be7bc4ab576c811d3e8d9d392582430c4"
+  integrity sha512-QEHLc8ckiQA9Aa1iJH0+rN8aZSncaUzgonH5wX8YILmmYJCG+4IsdhhamkWotK2gINVY3z6jaEQKc/SYwizs1g==
   dependencies:
     "@openeth/truffle-typings" "0.0.6"
     "@openzeppelin/contracts" "^3.2.0"

@@ -16,8 +16,8 @@ describe('using ethers with OpenGSN', () => {
     let from
     before(async () => {
 	let env = await GsnTestEnvironment.startGsn('localhost')
-	const { naivePaymasterAddress, forwarderAddress } = env.deploymentResult
 
+	const { paymasterAddress, forwarderAddress } = env.contractsDeployment
     
         const web3provider = new Web3HttpProvider('http://localhost:8545')
  
@@ -29,18 +29,17 @@ describe('using ethers with OpenGSN', () => {
         await counter.deployed()
 
         const config = await {
-            // verbose: true,
-            forwarderAddress,
-            paymasterAddress: naivePaymasterAddress,
+            // loggerConfiguration: { logLevel: 'error'},
+            paymasterAddress: paymasterAddress,
         }
         // const hdweb3provider = new HDWallet('0x123456', 'http://localhost:8545')
-        let gsnProvider = new RelayProvider(web3provider, config)
-	await gsnProvider.init()
+        let gsnProvider = RelayProvider.newProvider({provider: web3provider, config})
+    	await gsnProvider.init()
 	   // The above is the full provider configuration. can use the provider returned by startGsn:
         // const gsnProvider = env.relayProvider
 
     	const account = new ethers.Wallet(Buffer.from('1'.repeat(64),'hex'))
-        gsnProvider.addAccount({address:account.address, privateKey: Buffer.from(account.privateKey.replace('0x',''),'hex') })
+        gsnProvider.addAccount(account.privateKey)
     	from = account.address
 
         // gsnProvider is now an rpc provider with GSN support. make it an ethers provider:
