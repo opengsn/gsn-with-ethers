@@ -6,10 +6,12 @@
 //   console.log("a=%s addr=%s", 1, this);
 
 // eslint-disable-next-line no-undef
-usePlugin('@nomiclabs/buidler-ethers')
+require('@nomiclabs/hardhat-ethers')
+
 module.exports = {
   networks: {
     buidlerevm: {
+      url: 'http://localhost:8545',
       gas: 1e8,
       blockGasLimit: 1e8
     },
@@ -17,6 +19,7 @@ module.exports = {
       url: 'http://localhost:8545'
     }
   },
+  solidity: "0.6.2",
   solc: {
     version: '0.6.2',
     optimizer: {

@@ -7,7 +7,7 @@ const { assert } = require('chai')
 const Web3HttpProvider = require( 'web3-providers-http')
 
 //we still use truffle compiled files
-const Counter = require('../artifacts/Counter')
+const Counter = require('../artifacts/contracts/Counter.sol/Counter')
 
 describe('using ethers with OpenGSN', () => {
     let counter
