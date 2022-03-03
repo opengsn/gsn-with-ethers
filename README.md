@@ -6,8 +6,6 @@ Usage:
 ```
 yarn install
 
-ganache-cli & (or in another terminal)
-
 yarn test
 ```
 
@@ -21,10 +19,11 @@ You can also start GSN outside the test:
   ```
   npx gsn start localhost
   ```
+  (this requires "hardhat node" to be running on the machine)
   
 - In the test, remove the `startGSN()` in the test.
-- Update the test to read the relayHub address (and other deployed components):
+- Update the test to read the paymaster address :
   ```
-  relayHubAddress = require('./build/gsn/RelayHub').address
+  paymasterAddress = require('./build/gsn/Paymaster').address
   ```
 

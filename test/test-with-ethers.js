@@ -1,5 +1,5 @@
-const { RelayProvider } = require('@opengsn/gsn')
-const { GsnTestEnvironment } = require('@opengsn/gsn/dist/GsnTestEnvironment' )
+const { RelayProvider } = require('@opengsn/provider')
+const { GsnTestEnvironment } = require('@opengsn/dev' )
 const ethers = require('ethers')
 const { it, describe, before } = require('mocha')
 const { assert } = require('chai')
@@ -31,6 +31,7 @@ describe('using ethers with OpenGSN', () => {
         const config = await {
             // loggerConfiguration: { logLevel: 'error'},
             paymasterAddress: paymasterAddress,
+            auditorsCount: 0
         }
         // const hdweb3provider = new HDWallet('0x123456', 'http://localhost:8545')
         let gsnProvider = RelayProvider.newProvider({provider: web3provider, config})
@@ -53,7 +54,7 @@ describe('using ethers with OpenGSN', () => {
         let balanceUsed
         before(async () => {
             const countBefore = await counter.counter()
-            await counter.increment()
+            await counter.increment( {gasLimit: 1e6})
             const countAfter = await counter.counter()
             counterChange = countAfter - countBefore
         })

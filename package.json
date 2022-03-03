@@ -4,23 +4,23 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "testg": "hardhat --network ganache test test/test-with-ethers.js",
-    "test": "run-with-testrpc --chainId 1337 'hardhat test test/test-with-ethers.js' ",
-    "ganache-with-gsn": "run-with-testrpc --chainId 1337 'gsn start'"
+    "test-local": "hardhat --network local test test/test-with-ethers.js",
+    "test": "yarn run-with-hardhat-node 'hardhat test test/test-with-ethers.js' ",
+    "run-with-hardhat-node": "run-with-testrpc --testrpc-cmd ./scripts/hardhat-node",
+
+    "node-with-gsn": "yarn run-with-hardhat-node 'gsn start'"
   },
   "dependencies": {
     "@nomiclabs/hardhat-web3": "^2.0.0",
-    "@openeth/truffle-typings": "^0.0.5",
-    "@opengsn/gsn": "^2.1.0",
-    "ethers": "^5.0.26",
-    "ganache-cli": "^6.12.1",
-    "hardhat": "^2.0.8",
-    "run-with-testrpc": "^0.3.1",
-    "web3-providers-http": "^1.2.7"
+    "@opengsn/dev": "^2.2.6",
+    "@opengsn/provider": "^2.2.6",
+    "ethers": "^5.5.4",
+    "web3-providers-http": "^1.7.1"
   },
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.1",
-    "ts-node": "^8.10.1",
-    "typescript": "^3.9.3"
+    "@nomiclabs/hardhat-ethers": "^2.0.5",
+    "chai": "^4.3.6",
+    "hardhat": "^2.9.0",
+    "run-with-testrpc": "^0.3.1"
   }
 }

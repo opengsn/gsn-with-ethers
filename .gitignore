@@ -3,3 +3,5 @@ cache
 artifacts
 /build/
 /node_modules/
+/yarn-error.log
+/hardhat.log
