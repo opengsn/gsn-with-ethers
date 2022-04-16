@@ -1,10 +1,10 @@
 pragma solidity ^0.8.7;
 //SPDX-License-Identifier: MIT
 
-import "@opengsn/contracts/src/BaseRelayRecipient.sol";
+import "@opengsn/contracts/src/ERC2771Recipient.sol";
 
 
-contract Counter is BaseRelayRecipient {
+contract Counter is ERC2771Recipient {
 
 	uint public counter;
 	address public lastCaller;
